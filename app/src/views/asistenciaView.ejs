@@ -1,0 +1,97 @@
+<%- include("partials/_header")  %>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-5">
+            <table class="table table-bordered table-hover">
+                <h1> Formulario para envio de asistencia </h1>
+                
+                <div class="alert alert-primary alert-dismissible" id="myDIV" style="display: none">
+                    
+                </div>
+
+                <form action="" method="POST" id="formLista" enctype="multipart/form-data">
+                    <thead>
+                        <tr>
+                            <td>
+                                <div class="form-group">
+                                    <label for="">Carnet:</label>
+                                    <input type="text" id="carnet" name="carnet" placeholder="Carnet" class="form-control" autofocus>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="">Nombre:</label>
+                                    <input type="text" id="nombre" name="nombre" placeholder="Nombre" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Evento:</label>
+                                    <input type="text" id="evento" name="evento" placeholder="Evento" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label for="">ID Evento:</label>
+                                    <input type="text" id="id_evento" name="id_evento" placeholder="ID Evento" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Asistencia:</label>
+                                    <input type="file" id="files" name="files" class="form-control-file" accept="image/*">
+                                </div>
+                            </td>
+                        </tr>
+                        <td>
+                            <button type="submit" class="btn btn-primary">Enviar</button>
+                        </td>
+                    </thead>
+                </form>
+            </table>
+
+        </div>
+    </div>
+</div>
+
+<script>
+
+    $('#formLista').on("submit",function(event){
+        var carnet = document.getElementById("carnet");
+        var nombre = document.getElementById("nombre");
+        var evento = document.getElementById("evento");
+        var id_evento = document.getElementById("id_evento");
+        const files = document.getElementById("files");
+
+        const formData = new FormData();
+
+        formData.append("carnet", carnet.value);
+        formData.append("nombre", nombre.value);
+        formData.append("evento", evento.value);
+        formData.append("id_evento", id_evento.value);
+        formData.append("files", files.files[0]);
+        
+        $.ajax({
+            url: "http://localhost:8085/ingresar-asistencia",
+            enctype: 'multipart/form-data',
+            type: "post",
+            data: formData,
+            cache: false,
+            processData: false,
+            contentType: false,
+            error: function(){alert('Error al llamar al view')},
+            success: function(datos){
+                var contenido = document.getElementById("myDIV");
+                contenido.style.display = "block";
+                contenido.innerHTML = '';
+                contenido.innerHTML = `
+                <span class="close" onclick="this.parentElement.style.display='none';">&times;</span>
+                <strong>${datos.message}</strong>
+                `;
+                carnet.value = '';
+                nombre.value = '';
+                evento.value = '';
+                id_evento.value = '';
+                files.value = '';
+            }
+        });
+
+        event.preventDefault();
+    });
+</script>
+
+<%- include("partials/_footer")  %>

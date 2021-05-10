@@ -1,0 +1,80 @@
+<%- include("partials/_header")  %>
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-7">
+      <h1> Busqueda de Reportes </h1>
+      <form action="" id="formLista" method = "GET">
+        <div class="form-group">
+          <label>Ingrese ID Evento</label>
+          <input type="text" id="id" placeholder="ID" class="form-control" autofocus>
+        </div>
+
+        <button type="submit" class="btn btn-primary" id="btnShow">
+          Mostrar
+        </button>
+      </form>
+      <br>
+
+
+      <table class="table" id="table_id">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Id</th>
+            <th scope="col">Carnet</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Evento</th>
+            <th scope="col">Imagen</th>
+            <th scope="col">Fecha</th>
+            <th scope="col">Servidor</th>
+          </tr>
+        </thead>
+        <tbody id="contenido"></tbody>
+      </table>
+
+
+    </div>
+  </div>
+
+<script>
+
+    $('#formLista').on("submit",function(event){
+        var ide = document.getElementById("id").value;
+        
+        $.ajax({
+            url: 'http://localhost:8085/obtener-evento/'+ide,
+            dataType: 'json',
+            type: 'get',
+            error: function(){alert("Error al llamar al servlet")},
+            //datos es la variable que va a recibir la información del servlet
+            success: function(Respuesta){
+                tabla(Respuesta.data);
+                alert(Respuesta.message);
+            }
+        });
+
+        event.preventDefault();
+    });
+
+    function tabla(datos) {
+        contenido.innerHTML = ''
+        var cont = 0;
+        for (let valor of datos) {
+            contenido.innerHTML += `
+            <tr>
+            <td>${cont++}</td>
+            <td>${valor.id_asistencia}</td>
+            <td>${valor.carnet}</td>
+            <td>${valor.nombre}</td>
+            <td>${valor.evento}</td>
+            <td><img src="${valor.imagen}" width="250" height="155"></td>
+            <td>${valor.fecha}</td>
+            <td>${valor.servidor}</td>
+            </tr>
+            `
+        }
+    }
+
+</script>
+
+  <%- include("partials/_footer")  %>

@@ -1,0 +1,75 @@
+<%- include("partials/_header")  %>
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-7">
+      <h1> Reporte Individual </h1>
+      <table class="table" id="table_id">
+        <thead>
+          <tr>
+            <th scope="col"></th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody id="contenido">
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+
+<script>
+
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const ide = urlParams.get('id')
+    
+    $.ajax({
+        url: 'http://localhost:8085/obtener-reporte/'+ide,
+        dataType: 'json',
+        type: 'get',
+        error: function(){alert("Error al llamar al servlet")},
+        //datos es la variable que va a recibir la información del servlet
+        success: function(Respuesta){
+            tabla(Respuesta.data)
+            alert(Respuesta.message)
+        }
+    });
+
+    function tabla(datos) {
+        contenido.innerHTML = ''
+
+        contenido.innerHTML += `
+            <tr>
+                <td><b>ID</b></td>
+                <td>${datos[0].id_producto}</td>  
+            </tr>
+            <tr>
+                <td><b>Carnet</b></td>
+                <td>${datos[0].carnet}</td>  
+            </tr>   
+            <tr>
+                <td><b>Nombre</b></td>
+                <td>${datos[0].carnet}</td>  
+            </tr>  
+            <tr>
+                <td><b>Curso/Proyecto</b></td>
+                <td>${datos[0].curso}</td>  
+            </tr>   
+            <tr>
+                <td><b>Fecha</b></td>
+                <td>${datos[0].fecha}</td>  
+            </tr>   
+            <tr>
+                <td><b>Servidor</b></td>
+                <td>${datos[0].servidor}</td>  
+            </tr>   
+            <tr>
+                <td><b>Cuerpo</b></td>
+                <td>${datos[0].cuerpo_del_reporte}</td>  
+            </tr>                    
+        `
+    }
+
+</script>
+
+  <%- include("partials/_footer")  %>

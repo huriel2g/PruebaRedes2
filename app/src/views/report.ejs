@@ -1,0 +1,49 @@
+<%- include("partials/_header")  %>
+
+
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-5">
+      <div class="card-body">
+        <h1>Opciones para Reportes</h1>
+        <form action="/add" method="GET">
+          <button type="submit" class="btn btn-primary">
+            Enviar Reporte
+          </button>
+        </form>
+        <form action="/individual" method="GET">
+          <button type="submit" class="btn btn-primary">
+            Buscar Reporte
+          </button>
+        </form>
+      </div>
+    </div>
+    <div class="col-md-7">
+      <h1>Vista de Listado de Reportes</h1>
+      <table class="table table-bordered table-hover">
+        <thead>
+          <tr>
+            <td>Carnet</td>
+            <td>Nombre</td>
+            <td>Curso/Proyecto</td>
+            <td>Cuerpo del Reporte</td>
+          </tr>
+        </thead>
+        <!-- <tbody>
+          <% if (data) { %>
+            <% for(var i = 0; i < data.length; i++) { %>
+              <tr>
+                <td><%= data[i].carnet %></td>
+                <td><%= data[i].nombre %></td>
+                <td><%= data[i].proyecto %></td>
+                <td><%= data[i].cuerpo %></td>
+              </tr>
+            <% } %>
+          <% } %>
+        </tbody> -->
+      </table>
+    </div>
+  </div>
+</div>
+
+<%- include("partials/_footer")  %>

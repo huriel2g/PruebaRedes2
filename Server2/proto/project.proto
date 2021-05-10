@@ -1,0 +1,63 @@
+
+syntax = "proto3";
+
+package proyectoredes;
+
+// The greeting service definition.
+service Greeter {
+  // Sends a greeting
+  rpc ObtenerReportes(ObtenerReportesRequest) returns (ObtenerReportesReply) {}
+  rpc ObtenerReporteId(ObtenerReporteIdRequest) returns (ObtenerReporteIdReply) {}
+  rpc IngresarReporte(IngresarReporteRequest) returns (IngresarReporteReply) {}
+  rpc IngresarAsistencia(IngresarAsistenciaRequest) returns (IngresarAsistenciaReply) {}
+  rpc ObtenerEvento(ObtenerEventoRequest) returns (ObtenerEventoReply) {}
+  rpc ObtenerCarnet(ObtenerCarnetRequest) returns (ObtenerCarnetReply) {}
+}
+
+// '/obtener-reportes'
+message ObtenerReportesRequest {
+  string carnet = 1;
+}
+message ObtenerReportesReply {
+  string message = 1;
+}
+
+// '/obtener-reporte/:id'
+message ObtenerReporteIdRequest {
+  string id = 1;
+}
+message ObtenerReporteIdReply {
+  string message = 1;
+}
+
+// '/ingresar-reporte'
+message IngresarReporteRequest {
+  string entrada = 1;
+}
+message IngresarReporteReply {
+  string message = 1;
+}
+
+// '/ingresar-asistencia'
+message IngresarAsistenciaRequest {
+  string entrada = 1;
+}
+message IngresarAsistenciaReply {
+  string message = 1;
+}
+
+// '/obtener-evento/:id'
+message ObtenerEventoRequest {
+  string id = 1;
+}
+message ObtenerEventoReply {
+  string message = 1;
+}
+
+// '/obtener-carnet/:id'
+message ObtenerCarnetRequest {
+  string id = 1;
+}
+message ObtenerCarnetReply {
+  string message = 1;
+}

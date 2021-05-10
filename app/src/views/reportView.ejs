@@ -1,0 +1,103 @@
+<%- include("partials/_header")  %>
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-7">
+      <h1> Busqueda de Reportes </h1>
+      <form action="" id="formLista" method = "GET">
+        <div class="form-group">
+          <label>Ingrese Carnet</label>
+          <input type="text" id="carnet" placeholder="Carnet" class="form-control" autofocus>
+        </div>
+
+        <button type="submit" class="btn btn-primary" id="btnShow">
+          Mostrar
+        </button>
+      </form>
+      <br>
+
+
+      <table class="table" id="table_id">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Id</th>
+            <th scope="col">Carnet</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Proyecto</th>
+            <th scope="col">Fecha</th>
+            <th scope="col">Servidor</th>
+          </tr>
+        </thead>
+        <tbody id="contenido"></tbody>
+      </table>
+
+
+    </div>
+  </div>
+
+<script>
+
+    $('#formLista').on("submit",function(event){
+        var contenido = document.querySelector('#contenido')
+        var carnet = document.getElementById("carnet").value;
+        if (carnet == "") { //Trae todos los reportes
+            traerReportes();
+        } 
+        else {
+            traerReportesCarnet(carnet);
+        }
+        event.preventDefault();
+    });
+
+    function traerReportes() {
+        var JSON = $.ajax({
+            url: "http://localhost:8085/obtener-reportes",
+            dataType: 'json',
+            type: 'get',
+            async: false
+        }).responseText;
+        var Respuesta = jQuery.parseJSON(JSON);
+        tabla(Respuesta.data)
+        alert(Respuesta.message)
+    }
+
+    function traerReportesCarnet(carnet) {
+        $.ajax({
+            method: 'GET', 
+            url: "http://localhost:8085/obtener-reportes",
+            data: {'carnet': carnet},          
+            success: function (Respuesta) {
+                tabla(Respuesta.data);
+                alert(Respuesta.message);
+            },
+            failure: function (data) { 
+                alert("falló!"); 
+            },
+            error: function (data) {
+                alert("error!"); 
+            },
+            dataType: 'json'
+        });
+    }
+
+    function tabla(datos) {
+        contenido.innerHTML = ''
+        var cont = 0;
+        for (let valor of datos) {
+            contenido.innerHTML += `
+            <tr>
+            <td>${cont++}</td>
+            <td><a href="http://localhost:3000/individual/?id=${valor.id_producto}">${valor.id_producto}</a></td>
+            <td>${valor.carnet}</td>
+            <td>${valor.nombre}</td>
+            <td>${valor.curso}</td>
+            <td>${valor.fecha}</td>
+            <td>${valor.servidor}</td>
+            </tr>
+            `
+        }
+    }
+
+</script>
+
+  <%- include("partials/_footer")  %>
